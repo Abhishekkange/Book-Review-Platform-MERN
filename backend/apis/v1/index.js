@@ -1,9 +1,10 @@
 const express = require('express');
 const port = process.env.PORT || 4000;
 const app = express();
+const connectToMongo = require('./db/db');
 
 // connecting to MAIN database (MONGODB)//
-// connectToMongo();
+connectToMongo();
 
 // Routers
 //app.use('/', require('./Routers/Authentication'));
