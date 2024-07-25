@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
       console.log(userExists);
 
       // Correct order: plaintext password first, then hashed password
-      const isMatch = await bcrypt.compare(password, userExists.password);
+      const isMatch =  bcrypt.compare(password, userExists.password);
 
       if (isMatch) {
         const userDetails = {

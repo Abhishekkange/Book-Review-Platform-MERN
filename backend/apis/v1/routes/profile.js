@@ -11,9 +11,6 @@ router.get('/userProfile/:userId', async(req, res) => {
     if(user)
     {
         res.json({"message":user});
-
-
-
     }
     else{
 
@@ -49,13 +46,6 @@ router.get('/reviews/:userId', async(req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error fetching user reviews', error });
     }
-
-    
-
-
-
-
-
 
 });
 
