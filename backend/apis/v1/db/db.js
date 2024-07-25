@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const connectToMongoose = () => {
-  const uri = "mongodb+srv://NearbyKart_production:vgDxWwhHwhdWkSO0@nearbykart.cpuhqy4.mongodb.net/bookreview?retryWrites=true&maxPoolSize=20&w=majority";
+  const uri = "mongodb+srv://Abhishekkange123:7211821g@nearbykart.cpuhqy4.mongodb.net/bookreview";
 
   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {

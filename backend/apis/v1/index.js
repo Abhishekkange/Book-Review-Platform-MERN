@@ -2,12 +2,15 @@ const express = require('express');
 const port = process.env.PORT || 4000;
 const app = express();
 const connectToMongo = require('./db/db');
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 // connecting to MAIN database (MONGODB)//
 connectToMongo();
 
 // Routers
-//app.use('/', require('./Routers/Authentication'));
+app.use('/api/v1', require('./routes/Authenticaton'));
 
 
 // Start the server
