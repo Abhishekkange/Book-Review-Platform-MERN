@@ -11,6 +11,7 @@ connectToMongo();
 
 // Routers
 app.use('/api/v1', require('./routes/Authenticaton'));
+app.use('/api/v1', require('./routes/bookReview'));
 
 
 // Start the server
