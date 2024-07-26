@@ -11,6 +11,12 @@ const bookSchema = new Schema({
         type: String,
         required: true
     },
+    coverImage:{
+
+        type: String,
+        required: false
+
+    },
     reviews: [
         {
             user: {

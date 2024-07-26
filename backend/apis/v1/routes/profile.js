@@ -1,13 +1,14 @@
-const user = require('../models/UserModel');
+
 const book = require('../models/bookModel');
 const express = require('express');
 const router = express.Router();
+const User = require('../models/UserModel');
 
 
 router.get('/userProfile/:userId', async(req, res) => {
 
     const userId = req.params.userId;
-    const user = await user.findOne({ _id: userId});
+    const user = await User.findOne({ _id: userId},'email username');
     if(user)
     {
         res.json({"message":user});

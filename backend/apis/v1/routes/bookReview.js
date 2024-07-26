@@ -21,6 +21,26 @@ router.post('/addReview', async (req, res) => {
     }
 });
 
+router.post('/createNewBook',async(req,res)=>{
+
+    const { title, author, reviewText, rating, userId,coverImage } = req.body;
+    try {
+        let book = await Book.findOne({ title, author });
+
+        if (!book) {
+            book = new Book({ title, author,coverImage });
+        }
+
+        book.reviews.push({ user: userId, reviewText, rating });
+        await book.save();
+
+        res.status(201).json({ message: 'Review added successfully', book });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding review', error });
+    }
+
+});
+
 router.get('/reviews', async (req, res) => {
     try {
         const books = await Book.find().populate('reviews.user', 'username email');
