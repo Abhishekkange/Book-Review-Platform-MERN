@@ -1,23 +1,47 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Book from './Book';
+import { Container, Grid, Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const BookGrid = ({ books }) => {
+  const navigate = useNavigate();
+
+  const handleBookClick = (id) => {
+    navigate(`/book/${id}`); // Navigate to a specific book's detail page
+  };
 
   return (
-    <div className="container mt-4">
-      <div className="row">
-        {books.map((book, index) => (
-          <Book
-            key={index}
-            cover={book.cover}
-            title={book.title}
-            author={book.author}
-            id ={book._id}
-          />
+    <Container sx={{ mt: 4 }}>
+      <Grid container spacing={4}>
+        {books.map((book) => (
+          <Grid item xs={12} sm={6} md={4} key={book._id}>
+            <Card>
+              <CardMedia
+                component="img"
+                height="200"
+                image={book.cover}
+                alt={book.title}
+              />
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  {book.title}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  {book.author}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleBookClick(book._id)}
+                  sx={{ mt: 2 }}
+                >
+                  See Reviews
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 };
 

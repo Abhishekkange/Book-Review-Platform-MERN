@@ -1,17 +1,81 @@
-/* Add this to your CSS file or inline styles */
-.navbar-brand {
-    margin-right: 20px; /* Adjust spacing between logo and other elements */
-  }
+nav{
+
+  background-color: #dfdfdf;
+  margin-top: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
+
+
+}
+
+.left{
+
+  display: flex;
+}
+.right{
   
-  .form-inline .form-control {
-    width: 60%; /* Adjust the width of the search bar */
-  }
+  display: flex;
+}
+button{
+
+  height: 60%;
+  margin-top: 30px;
   
-  .btn-success {
-    margin-left: 15px; /* Space between the search bar and the button */
-  }
+}
+img{
+
+  margin: 15px;
+  width: 50px;
+  height: 50px;
+}
+h2{
+
+  text-align: center;
   
-  .ml-auto {
-    margin-left: auto; /* Align the profile icon to the right */
-  }
-  
+}
+
+.left{
+
+  text-align: center;
+  align-items: center;
+}
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.search-box {
+  display: flex;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  height: 50px;
+  margin-right: 50px;
+  overflow: hidden;
+}
+
+.search-box input[type="text"] {
+  border: none;
+  padding: 10px;
+  width: 300px;
+  height: 50px;
+  outline: none;
+}
+
+.search-box button {
+  border: none;
+  background-color: #28a745;
+  color: white;
+  padding: 25px 20px;
+  height: 30px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.search-box button:hover {
+  background-color: #218838;
+}

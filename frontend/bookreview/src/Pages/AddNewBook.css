@@ -1,8 +1,9 @@
 /* AddBookReview.css */
 .card {
     border-radius: 10px;
-    height: 80vh; /* Set height to 80% of viewport height */
-    overflow-y: auto; /* Add scroll if content exceeds card height */
+    height: 80vh;
+    overflow-y: auto;
+    width: 700px;
   }
   
   .card-body {

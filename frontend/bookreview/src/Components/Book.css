@@ -1,9 +1,10 @@
 .card {
-  height: 450px; /* Adjust height to look like a book */
-  width: 300px;  /* Adjust width to look like a book */
+ 
   display: flex;
+  max-height: 300px;
   flex-direction: column;
   justify-content: space-between;
+  overflow-x: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s;
 }
@@ -16,6 +17,7 @@
   height: 60%; /* Adjust height of the image */
   object-fit: cover;
   padding: 10px;
+
   border-radius: 5px;
 }
 
