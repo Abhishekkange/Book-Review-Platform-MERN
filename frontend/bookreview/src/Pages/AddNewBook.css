@@ -1,0 +1,25 @@
+/* AddBookReview.css */
+.card {
+    border-radius: 10px;
+    height: 80vh; /* Set height to 80% of viewport height */
+    overflow-y: auto; /* Add scroll if content exceeds card height */
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  h3 {
+    text-align: left;
+  }
+  
+  .form-label {
+    text-align: left;
+  }
+  
+  .mt-auto {
+    margin-top: auto; /* Push the button to the bottom */
+  }
+  

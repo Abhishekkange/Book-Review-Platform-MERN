@@ -5,10 +5,9 @@ import './ProfilePage.css';  // Import the custom CSS file
 import Navbar2 from './Navbar2';
 import { useNavigate } from 'react-router-dom';
 
-
 const Profile = () => {
-
-  const naviagate = useNavigate();
+  const [id,setId] = useState(null);
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({
     username: '',
     email: ''
@@ -19,26 +18,50 @@ const Profile = () => {
   // Fetch profile and reviews data
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const profileResponse = await axios.get('http://localhost:4000/api/v1/profile'); // Replace with your API endpoint
-        setProfile(profileResponse.data);
-      } catch (error) {
-        console.error('Error fetching profile:', error);
+      const JWT = localStorage.getItem('JWT');
+      if (JWT) {
+        console.log(JWT);
+
+        try {
+          const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
+          console.log('Response:', response);
+         
+          setProfile({
+            username: response.data.message.username,
+            email: response.data.message.email
+          });
+
+
+            //call fetch reviews here
+            fetchReviews(response.data.message.id);
+
+
+
+
+        } catch (error) {
+          console.error('There was an error!', error);
+          navigate('/login'); // Redirect to login if token verification fails
+        }
+      } else {
+        navigate('/login'); // Redirect to login if no token is found
       }
     };
 
-    const fetchReviews = async () => {
-      try {
-        const reviewsResponse = await axios.get('http://localhost:4000/api/v1/user/reviews'); // Replace with your API endpoint
-        setReviews(reviewsResponse.data);
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
+    const fetchReviews = async (id) => {
+      if (id!=null) {
+        try {
+          const reviewsResponse = await axios.get(`http://localhost:4000/api/v1/reviews/${id}`, {
+          }); 
+          setReviews(reviewsResponse.data);
+        } catch (error) {
+          console.error('Error fetching reviews:', error);
+        }
       }
     };
 
     fetchProfile();
-    fetchReviews();
-  }, []);
+    
+  }, [navigate]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -66,93 +89,90 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem('JWT');
     alert('Logged out successfully');
-    // Redirect to login page or home page
-    naviagate('/home');
+    navigate('/login');
   };
 
   return (
-
     <>
-
-    <Navbar2 />
-       <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-6 mb-4">
-          <div className="card shadow-sm">
-            <div className="card-header bg-primary text-white">
-              <h3>Profile Information</h3>
-            </div>
-            <div className="card-body">
-              {editMode ? (
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group mb-3">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="username"
-                      name="username"
-                      value={profile.username}
-                      onChange={handleChange}
-                      required
-                    />
+      <Navbar2 />
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <div className="card shadow-sm h-100">
+              <div className="card-header bg-primary text-white">
+                <h3>Profile Information</h3>
+              </div>
+              <div className="card-body d-flex flex-column">
+                {editMode ? (
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group mb-3">
+                      <label htmlFor="username">Username</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="username"
+                        name="username"
+                        value={profile.username}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group mb-3">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        name="email"
+                        value={profile.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <button type="submit" className="btn btn-primary">Save</button>
+                      <button type="button" className="btn btn-secondary" onClick={() => setEditMode(false)}>Cancel</button>
+                    </div>
+                  </form>
+                ) : (
+                  <div>
+                    <p><strong>Username:</strong> {profile.username}</p>
+                    <p><strong>Email:</strong> {profile.email}</p>
+                    <div className="d-flex justify-content-between">
+                      <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit Profile</button>
+                      <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                    </div>
                   </div>
-                  <div className="form-group mb-3">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      value={profile.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <button type="submit" className="btn btn-primary">Save</button>
-                    <button type="button" className="btn btn-secondary" onClick={() => setEditMode(false)}>Cancel</button>
-                  </div>
-                </form>
-              ) : (
-                <div>
-                  <p><strong>Username:</strong> {profile.username}</p>
-                  <p><strong>Email:</strong> {profile.email}</p>
-                  <div className="d-flex justify-content-between">
-                    <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit Profile</button>
-                    <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-md-6 mb-4">
-          <div className="card shadow-sm">
-            <div className="card-header bg-secondary text-white">
-              <h3>User's Reviews</h3>
-            </div>
-            <div className="card-body">
-              {reviews.length === 0 ? (
-                <p>No reviews found</p>
-              ) : (
-                <ul className="list-group">
-                  {reviews.map((review, index) => (
-                    <li key={index} className="list-group-item mb-2">
-                      <h5>{review.bookTitle}</h5>
-                      <p>{review.reviewText}</p>
-                      <small className="text-muted">Rating: {review.rating}</small>
-                    </li>
-                  ))}
-                </ul>
-              )}
+          <div className="col-md-6 mb-4">
+            <div className="card shadow-sm h-100">
+              <div className="card-header bg-secondary text-white">
+                <h3>User's Reviews</h3>
+              </div>
+              <div className="card-body">
+                {reviews.length === 0 ? (
+                  <p>No reviews found</p>
+                ) : (
+                  <ul className="list-group">
+                    {reviews.map((review, index) => (
+                      <li key={index} className="list-group-item mb-2">
+                        <h5>{review.bookTitle}</h5>
+                        <p>{review.reviewText}</p>
+                        <small className="text-muted">Rating: {review.rating}</small>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
- 
   );
 };
+
 export default Profile;

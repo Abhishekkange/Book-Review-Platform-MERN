@@ -65,11 +65,12 @@ router.post('/login', async (req, res) => {
       if (isMatch) {
         const userDetails = {
           id: userExists._id,
+          email: userExists.email,
+          username: userExists.username
         };
 
         // Generate JWT token
         const jwtToken = jwt.sign(userDetails, key);
-
         return res.json({ message: jwtToken,type: 'JWT' });
       } else {
         return res.json({ message: 'Invalid login credentials',type: 'error' });
@@ -82,23 +83,19 @@ router.post('/login', async (req, res) => {
     return res.status(500).json({ message: 'An error occurred during login',type: 'error' });
   }
 
-
-        
-
 });
 
-router.post('/verifyJwtToken', (req, res) => {
-  const jwtToken = req.body.jwt;
+router.get('/verifyJwtToken/:token', (req, res) => {
+  const jwtToken = req.params.token;
 
   jwt.verify(jwtToken, key, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ message: 'Invalid token' });
+
+      return res.status(401).json({ message: err.message });
     }
 
     res.json({ message: decoded });
   });
 });
-
-
 
 module.exports = router;

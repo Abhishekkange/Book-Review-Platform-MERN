@@ -1,0 +1,17 @@
+/* Add this to your CSS file or inline styles */
+.navbar-brand {
+    margin-right: 20px; /* Adjust spacing between logo and other elements */
+  }
+  
+  .form-inline .form-control {
+    width: 60%; /* Adjust the width of the search bar */
+  }
+  
+  .btn-success {
+    margin-left: 15px; /* Space between the search bar and the button */
+  }
+  
+  .ml-auto {
+    margin-left: auto; /* Align the profile icon to the right */
+  }
+  

@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Review from "./Pages/Reviews";
 import BookPage from "./Pages/BookPage";
 import Profile from "./Components/Profile";
+import AddNewBook from "./Pages/AddNewBook";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/register" element={<Register />}></Route> 
        <Route path="/book/:id" element={<BookPage />}></Route>
        <Route path="/profile" element={<Profile />}></Route>
+       <Route path="/addNewBook" element={<AddNewBook />}></Route>
        
        
       </Routes>
