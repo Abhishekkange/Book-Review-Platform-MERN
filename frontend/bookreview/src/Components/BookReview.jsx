@@ -5,6 +5,7 @@ import UserReview from './UserReview';
 import axios from 'axios';
 import EditReviewModal from './EditReview';
 import DeleteReviewModal from './DeleteConfirmationBox';
+import Navbar2 from './Navbar2';
 
 const BookReview = ({ book, reviews }) => {
     const [selectedReview, setSelectedReview] = useState(null);
@@ -21,12 +22,8 @@ const BookReview = ({ book, reviews }) => {
     };
 
     const handleUpdateReview = async (updatedReview) => {
-
-      console.log(book._id);
-      console.log(editReviewId);
         try {
             const response = await axios.put(
-              
                 `http://localhost:4000/api/v1/editReview/${book._id}/${editReviewId}`,
                 {
                     userId: userId,
@@ -48,8 +45,6 @@ const BookReview = ({ book, reviews }) => {
     };
 
     const handleConfirmDelete = async () => {
-
-   console.log(selectedReview._id);
         try {
             await axios.delete(
                 `http://localhost:4000/api/v1/deleteReview/${book._id}/${selectedReview._id}`
@@ -64,9 +59,11 @@ const BookReview = ({ book, reviews }) => {
     };
 
     return (
-        <div className="container mt-4">
-            <div className="row">
-                <div className="col-md-4">
+        <>
+        <Navbar2 />
+         <div className="container mt-4">
+            <div className="row" style={{ minHeight: '100vh' }}>
+                <div className="col-md-4 book-details-container">
                     <BookDetails 
                         cover={book.cover} 
                         title={book.title} 
@@ -75,8 +72,8 @@ const BookReview = ({ book, reviews }) => {
                         id={book._id}
                     />
                 </div>
-                <div className="col-md-8">
-                    <h3>User Reviews</h3>
+                <div className="col-md-8 reviews-container">
+                    <h3 className="mb-4">User Reviews</h3>
                     {reviews.map((review, index) => (
                         <UserReview
                             key={index}
@@ -100,6 +97,8 @@ const BookReview = ({ book, reviews }) => {
                 handleDelete={handleConfirmDelete} 
             />
         </div>
+        </>
+       
     );
 };
 

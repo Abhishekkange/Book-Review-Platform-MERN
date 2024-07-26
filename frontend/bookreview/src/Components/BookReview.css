@@ -1,0 +1,57 @@
+
+.container {
+    padding: 0;
+}
+
+.row {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Style for BookDetails container */
+.book-details-container {
+    height: 80%;
+    width: 30%;
+    background-color: #f8f9fa; /* Light background for contrast */
+    padding: 1rem;
+}
+
+/* Style for BookDetails */
+.book-details {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure BookDetails image takes 70% of height */
+.book-details img {
+    height: 70%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+/* Style for Reviews container */
+.reviews-container {
+    width: 50%;
+    padding: 1rem;
+    overflow-y: hidden;
+}
+
+h3 {
+    color: #333;
+    font-size: 1.75rem;
+}
+
+/* Style for individual reviews */
+.user-review {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+
+.user-review:hover {
+    background-color: #f1f1f1;
+}

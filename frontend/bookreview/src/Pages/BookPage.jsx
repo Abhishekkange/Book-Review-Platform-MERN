@@ -29,8 +29,8 @@ function BookPage() {
     
 
     return (
-        <div className="container mt-4">
-            <h1>Book Details</h1>
+        <div >
+           
             {book ? (
                 <>
                     <BookReview book={book} reviews={book.reviews} />
