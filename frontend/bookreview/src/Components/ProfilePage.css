@@ -1,0 +1,42 @@
+/* ProfilePage.css */
+
+.container {
+    margin-top: 20px;
+  }
+  
+  .card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .btn {
+    margin-right: 10px;
+  }
+  
+  .list-group-item {
+    border: none;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .list-group-item h5 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .list-group-item p {
+    margin-bottom: 0.5rem;
+  }
+  

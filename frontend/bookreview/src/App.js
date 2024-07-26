@@ -5,6 +5,7 @@ import Register from "./Pages/Register"
 import Login from "./Pages/Login";
 import Review from "./Pages/Reviews";
 import BookPage from "./Pages/BookPage";
+import Profile from "./Components/Profile";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route> 
        <Route path="/book/:id" element={<BookPage />}></Route>
+       <Route path="/profile" element={<Profile />}></Route>
        
        
       </Routes>

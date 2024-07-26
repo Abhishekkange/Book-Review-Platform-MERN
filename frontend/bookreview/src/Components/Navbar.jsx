@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../images/logo.jpeg';
-import profileIcon from '../images/profile-icon.png'; // Assuming you have a profile icon image
+import profileIcon from '../images/user.png'; 
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
+
+  const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
@@ -14,6 +17,12 @@ function Navbar() {
     }
   }, []);
 
+  const handleProfileClick = () => {
+
+
+    navigate('/profile');
+
+  };
   const handleSignOut = () => {
     // Handle sign out logic, like clearing the token
     localStorage.removeItem('JWT');
@@ -22,10 +31,10 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand d-flex align-items-center" to="/">
+      <div className="navbar-brand d-flex align-items-center" to="/">
         <img src={logo} alt="Logo" width="30" height="30" className="d-inline-block align-top mr-2" />
         <span className="ml-2">Book Peek</span>
-      </Link>
+      </div>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -34,7 +43,7 @@ function Navbar() {
           {isSignedIn ? (
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src={profileIcon} alt="Profile" width="30" height="30" className="d-inline-block align-top" />
+                <img onClick={handleProfileClick} src={profileIcon} alt="Profile" width="30" height="30" className="d-inline-block align-top" />
               </a>
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <Link className="dropdown-item" to="/profile">Profile</Link>
