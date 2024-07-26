@@ -96,7 +96,7 @@ router.delete('/deleteReview/:bookId/:reviewId', async (req, res) => {
         // Find the review by ID within the book's reviews
         const review = book.reviews.id(reviewId);
         if (!review) {
-            return res.status(404).json({ message: 'Review not found' });
+            return res.status(700).json({ message: 'Review not found' });
         }
 
         // Check if the review belongs to the user

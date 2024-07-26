@@ -30,12 +30,8 @@ const Profile = () => {
             username: response.data.message.username,
             email: response.data.message.email
           });
-
-
             //call fetch reviews here
             fetchReviews(response.data.message.id);
-
-
 
 
         } catch (error) {
@@ -48,10 +44,14 @@ const Profile = () => {
     };
 
     const fetchReviews = async (id) => {
+
+
       if (id!=null) {
+        console.log(id);
         try {
-          const reviewsResponse = await axios.get(`http://localhost:4000/api/v1/reviews/${id}`, {
-          }); 
+          const reviewsResponse = await axios.get(`http://localhost:4000/api/v1/reviews/${id}`); 
+          console.log(reviewsResponse);
+          console.log("aboved review");
           setReviews(reviewsResponse.data);
         } catch (error) {
           console.error('Error fetching reviews:', error);
@@ -75,14 +75,37 @@ const Profile = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put('http://localhost:4000/api/v1/profile', profile); // Replace with your API endpoint
-      setEditMode(false);
-      alert('Profile updated successfully');
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      alert('Failed to update profile');
+
+    const JWT = localStorage.getItem('JWT');
+    if (JWT) {
+      console.log(JWT);
+
+      try {
+        const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
+        console.log('Response:', response);
+
+        const userId = response.data.message.id;   
+        
+       
+       
+        try {
+         const response = await axios.put(`http://localhost:4000/api/v1/updateProfile/${userId}`, profile); // Replace with your API endpoint
+          setEditMode(false);
+          console.log(response);
+          alert('Profile updated successfully');
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          alert('Failed to update profile');
+        }
+
+      } catch (error) {
+        console.error('There was an error!', error);
+        navigate('/login'); // Redirect to login if token verification fails
+      }
+    } else {
+      navigate('/login'); // Redirect to login if no token is found
     }
+   
   };
 
   // Handle logout

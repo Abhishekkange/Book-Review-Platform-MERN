@@ -8,11 +8,12 @@ import BookPage from "./Pages/BookPage";
 import Profile from "./Components/Profile";
 import AddNewBook from "./Pages/AddNewBook";
 
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={< Review/>}></Route>
+      <Route path="/" element={< Review/>}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route> 
        <Route path="/book/:id" element={<BookPage />}></Route>

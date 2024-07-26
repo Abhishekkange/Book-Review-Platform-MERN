@@ -32,7 +32,7 @@ const Login = () => {
       if (response.data.type === "JWT") {
         localStorage.setItem('JWT', response.data.message);
         alert("login successful")
-        navigate('/home');
+        navigate('/');
       }
     } catch (error) {
       console.error('There was an error!', error);

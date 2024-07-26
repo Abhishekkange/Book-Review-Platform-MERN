@@ -23,24 +23,39 @@ const BookDetails = ({ cover, title, author, description, id }) => {
 
     const JWT = localStorage.getItem('JWT');
     if (JWT) {
-      const addReviewData = {
-        title: title,
-        author: author,
-        reviewText: reviewText,
-        rating: rating,
-        userId: "Abhishek" // Replace with actual user ID from JWT
-      };
+
+      //GET ID FROM JWT
 
       try {
-        const response = await axios.post('http://localhost:4000/api/v1/addReview', addReviewData);
-        console.log('Response:', response.data);
-        if (response.data.type === "JWT") {
-          localStorage.setItem('JWT', JSON.stringify(response.data.message));
-          console.log('stored in localStorage');
+        const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
+        console.log('Response:', response);
+
+        const userId = response.data.message.id;     
+        const addReviewData = {
+          title: title,
+          author: author,
+          reviewText: reviewText,
+          rating: rating,
+          userId: userId
+        };
+  
+        try {
+          const response = await axios.post('http://localhost:4000/api/v1/addReview', addReviewData);
+          console.log('Response:', response.data);
+          if (response.data.type === "JWT") {
+            localStorage.setItem('JWT', JSON.stringify(response.data.message));
+            console.log('stored in localStorage');
+          }
+        } catch (error) {
+          console.error('There was an error!', error);
         }
+       
+
       } catch (error) {
         console.error('There was an error!', error);
+        navigate('/login'); // Redirect to login if token verification fails
       }
+     
     } else {
       navigate('/login');
     }

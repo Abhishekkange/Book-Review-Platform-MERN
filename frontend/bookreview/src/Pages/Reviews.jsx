@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
 import BookGrid from '../Components/BooksGrid'
-import BookReview from '../Components/BookReview';
 import { useEffect ,useState } from 'react';
 import axios from 'axios';
 

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form, Container, Row, Col, Card } from 'react-bootstrap';
 import './AddNewBook.css'; 
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const AddBookReview = () => {
+  const navigate = useNavigate();
   const [bookTitle, setBookTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [bookImage, setBookImage] = useState(null);
@@ -17,25 +19,53 @@ const AddBookReview = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    const data = {
-        "title":bookTitle,
-        "author":author,
-        "cover":"bookImage",
-        "reviewText":reviewText,
-        "rating":rating,
-        "userId":"Abhishek"
-      }
-  
+   
+    //get id using JWT token 
+    const JWT = localStorage.getItem('JWT');
+    if (JWT) {
+      console.log(JWT);
+
       try {
-        const response = await axios.post('http://localhost:4000/api/v1/createNewBook', data);
-        console.log('Response:', response.data);
+        const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
+        console.log('Response:', response);
+
+        const userId = response.data.message.id;
+        console.log('User:', userId);
+        const data = {
+          "title":bookTitle,
+          "author":author,
+          "cover":"bookImage",
+          "reviewText":reviewText,
+          "rating":rating,
+          "userId":userId
+        }
+    
+        try {
+          const response = await axios.post('http://localhost:4000/api/v1/createNewBook', data);
+          console.log('Response:', response.data);
+          if(response.data.message === 'Review added successfully')
+          {
+            alert("Review added successfully");
+            navigate('/');
+          }
+        } catch (error) {
+          console.error('There was an error!', error);
+        }
+       
+
+
+
       } catch (error) {
         console.error('There was an error!', error);
+        navigate('/login'); // Redirect to login if token verification fails
       }
-   
+    } else {
+      navigate('/login'); // Redirect to login if no token is found
+    }
   };
 
+
+  
   return (
     <Container fluid className="p-0">
       <Row className="h-100">

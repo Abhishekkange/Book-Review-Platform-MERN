@@ -46,7 +46,7 @@ const Register = () => {
             console.log('Response:', response.data);
             if (response.data.type === "JWT") {
               localStorage.setItem('JWT', JSON.stringify(response.data.message));
-              navigate('/home');
+              navigate('/');
             }
           } catch (error) {
             console.error('There was an error!', error);

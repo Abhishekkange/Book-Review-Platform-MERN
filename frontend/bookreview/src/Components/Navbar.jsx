@@ -26,7 +26,7 @@ function Navbar() {
   };
 
   const handleAddReviewClick = () => {
-    navigate('/AddNewReview'); // Navigate to the add review page
+    navigate('/AddNewBook'); // Navigate to the add review page
   };
 
   return (
