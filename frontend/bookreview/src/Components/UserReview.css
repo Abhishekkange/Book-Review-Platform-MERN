@@ -1,0 +1,4 @@
+.user-review .fa-edit,
+.user-review .fa-trash-alt {
+  cursor: pointer;
+}
