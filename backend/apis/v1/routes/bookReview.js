@@ -62,27 +62,42 @@ router.put('/editReview/:bookId/:reviewId', async (req, res) => {
         res.status(500).json({ message: 'Error updating review', error });
     }
 });
-
 router.delete('/deleteReview/:bookId/:reviewId', async (req, res) => {
     const { bookId, reviewId } = req.params;
     const { userId } = req.body;
 
     try {
+        // Find the book by ID
         const book = await Book.findById(bookId);
-        const review = book.reviews.id(reviewId);
+        if (!book) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
 
+        // Find the review by ID within the book's reviews
+        const review = book.reviews.id(reviewId);
+        if (!review) {
+            return res.status(404).json({ message: 'Review not found' });
+        }
+
+        // Check if the review belongs to the user
         if (review.user.toString() !== userId) {
             return res.status(403).json({ message: 'You can only delete your own reviews' });
         }
 
-        review.remove();
+        // Remove the review from the book's reviews array
+        book.reviews.pull(reviewId);
+
+        // Save the updated book document
         await book.save();
 
         res.status(200).json({ message: 'Review deleted successfully', book });
     } catch (error) {
+        // Log the error for debugging and send an error response
+        console.error('Error deleting review:', error);
         res.status(500).json({ message: 'Error deleting review', error });
     }
 });
+
 
 //find the book by ID
 router.get("/book/:bookId", async(req, res) => {

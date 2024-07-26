@@ -4,13 +4,20 @@ import AddReview from './AddReview';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import EditReview from './EditReview';
+import DeleteReview from './DeleteConfirmationBox';
 
 
 
 const BookDetails = ({ cover, title, author, description, id }) => {
 
     const [showModal, setShowModal] = useState(false);
+    const [showEditReviewModal, setShowEditReviewModal] = useState(false);
+    const [showDeleteReviewModal, setShowDeleteReviewModal] = useState(false);
+    const [selectedReview, setSelectedReview] = useState(null);
     const navigate = useNavigate();
+
+    
 
     const data = {
 
@@ -61,19 +68,23 @@ const BookDetails = ({ cover, title, author, description, id }) => {
 
 
     }
-    
-
     const handleAddReview = () => {
 
         setShowModal(true);
 
     };
-
     const handleCloseReview = () => {
 
         setShowModal(false);
 
     };
+   
+
+  
+
+
+
+
   return (
     <div className="book-details card mb-3">
       <img src={cover} className="card-img-top" alt={title} />
@@ -90,10 +101,12 @@ const BookDetails = ({ cover, title, author, description, id }) => {
       Add Review
     </button>
     <AddReview
-                        show={showModal} 
-                        handleClose={handleCloseReview} 
-                        handleSubmit={handleSubmitReview} 
-                    />
+        show={showModal} 
+        handleClose={handleCloseReview} 
+        handleSubmit={handleSubmitReview} 
+    />
+  
+                
     </div>
   );
 };
