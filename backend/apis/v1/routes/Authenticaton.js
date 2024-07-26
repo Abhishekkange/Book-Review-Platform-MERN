@@ -69,18 +69,18 @@ router.post('/login', async (req, res) => {
         };
 
         // Generate JWT token
-        const jwtToken = jwt.sign(userDetails, key, { expiresIn: '1h' });
+        const jwtToken = jwt.sign(userDetails, key);
 
-        return res.json({ message: jwtToken });
+        return res.json({ message: jwtToken,type: 'JWT' });
       } else {
-        return res.json({ message: 'Invalid login credentials' });
+        return res.json({ message: 'Invalid login credentials',type: 'error' });
       }
     } else {
-      return res.json({ message: 'Invalid login credentials' });
+      return res.json({ message: 'Invalid login credentials',type: 'error' });
     }
   } catch (error) {
     console.error("Error during login:", error);
-    return res.status(500).json({ message: 'An error occurred during login' });
+    return res.status(500).json({ message: 'An error occurred during login',type: 'error' });
   }
 
 

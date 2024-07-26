@@ -4,6 +4,9 @@ const app = express();
 const http = require('http');
 const connectToMongo = require('./db/db');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
+app.use(cors());
 
 app.use(bodyParser.json());
 

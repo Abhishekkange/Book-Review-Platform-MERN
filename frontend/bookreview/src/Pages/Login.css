@@ -1,0 +1,12 @@
+/* Add this CSS file to style the login component */
+
+.background {
+  background: url('../images/logo.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+}
+
+.card {
+  max-width: 400px;
+  width: 100%;
+}
