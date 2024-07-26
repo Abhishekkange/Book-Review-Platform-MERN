@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Book from './Book';
 
 const BookGrid = ({ books }) => {
+
   return (
     <div className="container mt-4">
       <div className="row">

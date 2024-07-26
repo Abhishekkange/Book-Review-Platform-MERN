@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Register from "./Pages/Register";
+import Register from "./Pages/Register"
 import Login from "./Pages/Login";
 import Review from "./Pages/Reviews";
 import BookPage from "./Pages/BookPage";

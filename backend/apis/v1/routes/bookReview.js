@@ -32,7 +32,7 @@ router.get('/reviews', async (req, res) => {
 
 router.get('/books', async (req, res) => {
     try {
-        const books = await Book.find({},"title author");
+        const books = await Book.find({},"title author cover");
         res.status(200).json({"message":books});
     } catch (error) {
         res.status(500).json({ message: 'Error fetching reviews', error });

@@ -1,9 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../images/logo.jpeg';
-
+import profileIcon from '../images/profile-icon.png'; // Assuming you have a profile icon image
 
 function Navbar() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    // Check local storage for authentication token or status
+    const token = localStorage.getItem('JWT');
+    if (token) {
+      setIsSignedIn(true);
+    }
+  }, []);
+
+  const handleSignOut = () => {
+    // Handle sign out logic, like clearing the token
+    localStorage.removeItem('JWT');
+    setIsSignedIn(false);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand d-flex align-items-center" to="/">
@@ -15,13 +31,26 @@ function Navbar() {
       </button>
       <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link to="/login" className="btn btn-primary">Sign In</Link>
-          </li>
+          {isSignedIn ? (
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src={profileIcon} alt="Profile" width="30" height="30" className="d-inline-block align-top" />
+              </a>
+              <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <Link className="dropdown-item" to="/profile">Profile</Link>
+                <div className="dropdown-divider"></div>
+                <button className="dropdown-item" onClick={handleSignOut}>Sign Out</button>
+              </div>
+            </li>
+          ) : (
+            <li className="nav-item">
+              <Link to="/login" className="btn btn-primary ml-3">Sign In</Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
