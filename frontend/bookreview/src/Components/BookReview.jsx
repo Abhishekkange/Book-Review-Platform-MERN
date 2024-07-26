@@ -4,7 +4,11 @@ import BookDetails from './BookDetails';
 import UserReview from './UserReview';
 
 
-const BookReview = ({ book, reviews, onEditReview, onDeleteReview }) => {
+const BookReview = ({ book, reviews }) => {
+
+    reviews.map((review, index) => (
+        console.log(review.reviewText)
+      ));
   return (
     <div className="container mt-4">
       <div className="row">
@@ -14,6 +18,7 @@ const BookReview = ({ book, reviews, onEditReview, onDeleteReview }) => {
             title={book.title} 
             author={book.author} 
             description={book.description} 
+            id={ book._id }
           />
         </div>
         <div className="col-md-8">
@@ -21,10 +26,10 @@ const BookReview = ({ book, reviews, onEditReview, onDeleteReview }) => {
           {reviews.map((review, index) => (
             <UserReview
               key={index}
-              username={review.username}
-              reviewText={review.text}
-              onEdit={() => onEditReview(index)}
-              onDelete={() => onDeleteReview(index)}
+              username={review.user}
+              reviewText={review.reviewText}
+            //   onEdit={() => onEditReview(index)}
+            //   onDelete={() => onDeleteReview(index)}
             />
           ))}
         </div>

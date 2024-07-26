@@ -17,22 +17,27 @@ function BookPage() {
                 setBook(response.data.message); 
                 console.log('Fetched book details:', response.data.message);
             } catch (err) {
-                setError(err.message);
+                setError('Failed to fetch book details: ' + err.message);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchBookDetails();
-    }, [id]); 
+    }, [id]);
 
     
 
     return (
-        <div>
-            <h1>Book Page</h1>
-            
-           
+        <div className="container mt-4">
+            <h1>Book Details</h1>
+            {book ? (
+                <>
+                    <BookReview book={book} reviews={book.reviews} />
+                </>
+            ) : (
+                <p>No book details available.</p>
+            )}
         </div>
     );
 }
