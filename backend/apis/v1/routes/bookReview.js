@@ -84,6 +84,52 @@ router.delete('/deleteReview/:bookId/:reviewId', async (req, res) => {
     }
 });
 
+//find the book by ID
+router.get("/book/:bookId", async(req, res) => {
+
+    const bookId = req.params.bookId;
+    const book = await Book.findById(bookId);
+    if(book)
+    {
+        res.json({ message: book,type:'details' });
+
+    }
+    else {
+
+        res.json({ message:"book not found", type:'error' });
+
+    }
+});
+
+//find review by book ID
+
+router.get("/bookReviews/:bookId", async(req, res) => {
+
+    const bookId = req.params.bookId;
+    const book = await Book.findById(bookId);
+    if(book)
+    {
+        const bookReviews = book.reviews;
+        if(bookReviews){
+
+            res.json({ message: bookReviews,type:'details' });
+
+        }
+        else{
+
+            res.json({ message:"no review found", type:'error' });
+        }
+
+    }
+    else {
+
+        res.json({ message:"book not found", type:'error' });
+
+    }
+});
+
+
+
 module.exports = router;
 
 
