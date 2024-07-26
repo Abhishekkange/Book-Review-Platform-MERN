@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
 
 const EditReview = ({ show, handleClose, review, handleUpdate }) => {
   const [reviewText, setReviewText] = useState('');
@@ -15,46 +15,47 @@ const EditReview = ({ show, handleClose, review, handleUpdate }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleUpdate({ reviewText, rating });
-    handleClose(); // Close the modal after updating
+    handleClose(); // Close the dialog after updating
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Edit Review</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleFormSubmit}>
-          <Form.Group controlId="reviewText">
-            <Form.Label>Review Text</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="rating" className="mt-3">
-            <Form.Label>Rating</Form.Label>
-            <Form.Control
-              type="number"
-              min="1"
-              max="5"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit" className="mt-3">
-            Update Review
-          </Button>
-          <Button variant="secondary" onClick={handleClose} className="mt-3 ms-2">
-            Cancel
-          </Button>
-        </Form>
-      </Modal.Body>
-    </Modal>
+    <Dialog open={show} onClose={handleClose}>
+      <DialogTitle>Edit Review</DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleFormSubmit}>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Review Text"
+            type="text"
+            fullWidth
+            multiline
+            rows={3}
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            required
+          />
+          <TextField
+            margin="dense"
+            label="Rating"
+            type="number"
+            fullWidth
+            inputProps={{ min: 1, max: 5 }}
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
+            required
+          />
+          <DialogActions>
+            <Button type="submit" variant="contained" color="primary">
+              Update Review
+            </Button>
+            <Button onClick={handleClose} variant="outlined" color="secondary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -45,6 +45,7 @@ const Navbar = () => {
             size="small"
             placeholder="Search"
             variant="outlined"
+            style={{color: 'white'}}
             InputProps={{
               endAdornment: (
                 <IconButton type="button" aria-label="search">

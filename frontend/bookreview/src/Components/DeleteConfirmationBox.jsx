@@ -1,24 +1,22 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Button } from '@mui/material';
 
 const DeleteConfirmationBox = ({ show, handleClose, handleDelete }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Confirm Deletion</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>Are you sure you want to delete this review?</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="danger" onClick={handleDelete}>
+    <Dialog open={show} onClose={handleClose}>
+      <DialogTitle>Confirm Deletion</DialogTitle>
+      <DialogContent>
+        <Typography>Are you sure you want to delete this review?</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" color="error" onClick={handleDelete}>
           Delete
         </Button>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="outlined" color="primary" onClick={handleClose}>
           Cancel
         </Button>
-      </Modal.Footer>
-    </Modal>
+      </DialogActions>
+    </Dialog>
   );
 };
 

@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Login.css';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import loginImage from '../images/login.jpg';
+import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Container, Grid, Card, CardContent, CardActions, Button, TextField, Typography } from '@mui/material';
 import Navbar2 from '../Components/Navbar2';
-
-
-
+import loginImage from '../images/login.jpg';
 
 const Login = () => {
-  
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,14 +19,14 @@ const Login = () => {
     const data = {
       email: email,
       password: password
-    }
+    };
 
     try {
       const response = await axios.post('http://localhost:4000/api/v1/login', data);
       console.log('Response:', response.data);
       if (response.data.type === "JWT") {
         localStorage.setItem('JWT', response.data.message);
-        alert("login successful")
+        alert("Login successful");
         navigate('/');
       }
     } catch (error) {
@@ -41,60 +36,64 @@ const Login = () => {
 
   return (
     <>
+      <Navbar2 />
 
-    <Navbar2 />
-    
-    <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-white">
-      <div className="row w-100">
-        <div className="col-md-6 d-none d-md-flex align-items-center justify-content-center">
-          <img src={loginImage} alt="Login Illustration" className="img-fluid" />
-        </div>
-        <div className="col-md-6 d-flex align-items-center justify-content-center">
-          <div className="card shadow-lg p-4" style={{ maxWidth: '400px', width: '100%' }}>
-            <div className="card-header text-center bg-primary text-white">
-              <h3>Login</h3>
-            </div>
-            <div className="card-body">
-              <form onSubmit={handleLoginClick}>
-                <div className="form-group mb-3">
-                  <label htmlFor="email">Email</label>
-                  <input
+      <Container
+        maxWidth="lg"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', backgroundColor: 'white' }}
+      >
+        <Grid container spacing={2}>
+          <Grid item md={6} display={{ xs: 'none', md: 'flex' }} alignItems="center" justifyContent="center">
+            <img src={loginImage} alt="Login Illustration" style={{ maxWidth: '100%', height: 'auto' }} />
+          </Grid>
+          <Grid item xs={12} md={6} display="flex" alignItems="center" justifyContent="center">
+            <Card sx={{ maxWidth: 400, width: '100%', boxShadow: 3 }}>
+              <CardContent>
+                <Typography variant="h5" component="div" gutterBottom align="center" sx={{ bgcolor: 'primary.main', color: 'white', padding: 2 }}>
+                  Login
+                </Typography>
+                <form onSubmit={handleLoginClick}>
+                  <TextField
+                    label="Email"
                     type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="Enter email"
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
                     value={email}
                     onChange={handleEmailChange}
                     required
                   />
-                </div>
-                <div className="form-group mb-4">
-                  <label htmlFor="password">Password</label>
-                  <input
+                  <TextField
+                    label="Password"
                     type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
                     value={password}
                     onChange={handlePasswordChange}
                     required
                   />
-                </div>
-                <button type="submit" className="btn btn-primary w-100">Login</button>
-              </form>
-            </div>
-            <div className="card-footer text-center">
-              <small className="text-muted">Don't have an account? <a href="/register">Register</a></small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Login
+                  </Button>
+                </form>
+              </CardContent>
+              <CardActions>
+                <Typography variant="body2" color="textSecondary" align="center" sx={{ width: '100%' }}>
+                  Don't have an account? <a href="/register">Register</a>
+                </Typography>
+              </CardActions>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
     </>
-   
   );
 };
 
