@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Box, Typography, TextField, Button, Card, CardContent, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Container, Box, Typography, TextField, Button, Card, CardContent, InputLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -18,42 +18,53 @@ const AddBookReview = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get id using JWT token
-    const JWT = localStorage.getItem('JWT');
-    if (JWT) {
-      console.log(JWT);
+    let bookImageUrl = 'a';
 
-      try {
+    try {
+      if (bookImage) {
+        // Create a FormData object and append the image
+        const formData = new FormData();
+        formData.append('image', bookImage);
+
+        // Upload image and get URL
+        const uploadResponse = await axios.post('http://localhost:4000/api/v1/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        bookImageUrl = uploadResponse.data.url;
+        console.log("Upload successful:",bookImageUrl);
+        console.log("Upload successful:",uploadResponse.data.urll);
+      }
+
+      // Get id using JWT token
+      const JWT = localStorage.getItem('JWT');
+      if (JWT) {
         const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
-        console.log('Response:', response);
-
         const userId = response.data.message.id;
-        console.log('User:', userId);
+
         const data = {
           title: bookTitle,
           author: author,
-          cover: bookImage, // Note: You might need to handle file uploads differently
+          coverImage: bookImageUrl, 
           reviewText: reviewText,
           rating: rating,
           userId: userId
         };
 
-        try {
-          const response = await axios.post('http://localhost:4000/api/v1/createNewBook', data);
-          console.log('Response:', response.data);
-          if (response.data.message === 'Review added successfully') {
-            alert("Review added successfully");
-            navigate('/');
-          }
-        } catch (error) {
-          console.error('There was an error!', error);
+        console.log(JSON.stringify(data));
+        const submitResponse = await axios.post('http://localhost:4000/api/v1/createNewBook', data);
+        console.log('Submit response:', submitResponse.data);
+        
+        if (submitResponse.data.message === 'Review added successfully') {
+          alert("Review added successfully");
+          navigate('/');
         }
-      } catch (error) {
-        console.error('There was an error!', error);
-        navigate('/login'); // Redirect to login if token verification fails
+      } else {
+        navigate('/login'); // Redirect to login if no token is found
       }
-    } else {
-      navigate('/login'); // Redirect to login if no token is found
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
