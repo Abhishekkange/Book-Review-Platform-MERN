@@ -1,6 +1,6 @@
 const express = require('express');
-const Book = require('../models/bookModel');
 const router = express.Router();
+const Book = require('../models/book-model');
 const controller = require('../controllers/bookreview-controller');
 
 //Route to Add a Review to Existing Book
@@ -20,7 +20,7 @@ router.get('/reviews', async (req, res) => {
 });
 
 //Route to fetch all books
-router.get('/books', controller.getALlBooks);
+router.get('/books', controller.getAllBooks);
 
 //Route to Edit the Review
 router.put('/editReview/:bookId/:reviewId',controller.editReview);
@@ -35,6 +35,23 @@ router.get("/book/:bookId",controller.getBookById);
 //find review by book ID
 router.get("/bookReviews/:bookId", controller.getBookReviewsById);
 
+
+router.get('/searchBook/:keyword', async (req, res) => {
+    const keyword = req.params.keyword;
+    const query = {
+      $or: [
+        { title: { $regex: keyword, $options: 'i' } }, // Case-insensitive regex search for title
+        { author: { $regex: keyword, $options: 'i' } }, // Case-insensitive regex search for author
+      ],
+    };
+  
+    try {
+      const books = await Book.find(query);
+      res.json({ message: books });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
 
 module.exports = router;
 

@@ -1,12 +1,16 @@
 import React from 'react';
-import { Container, Grid, Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import { Container, Grid, Card, CardContent, CardMedia, Typography, Button, Box, Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const BookGrid = ({ books }) => {
+const BookGrid = ({ books, currentPage, totalPages, setCurrentPage }) => {
   const navigate = useNavigate();
 
   const handleBookClick = (id) => {
-    navigate(`/book/${id}`); // Navigate to a specific book's detail page
+    navigate(`/book/${id}`);
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
@@ -41,6 +45,9 @@ const BookGrid = ({ books }) => {
           </Grid>
         ))}
       </Grid>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+      </Box>
     </Container>
   );
 };

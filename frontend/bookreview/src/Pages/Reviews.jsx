@@ -1,34 +1,45 @@
-import React from 'react'
-import Navbar from '../Components/Navbar'
-import BookGrid from '../Components/BooksGrid'
-import { useEffect ,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from '../Components/Navbar';
+import BookGrid from '../Components/BooksGrid';
 
-function Reviews() {
-
+const Reviews = () => {
   const [books, setBooks] = useState([]);
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get('http://localhost:4000/api/v1/books');
-        setBooks(response.data.message);
-        console.log(JSON.stringify(books));
-      } catch (error) {
-        console.error('There was an error fetching the books!', error);
-      }
-    };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-    fetchBooks();
-    
-  }, []);
+  const fetchBooks = async (page = 1) => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/v1/books?page=${page}&limit=6`);
+      setBooks(response.data.books);
+      setTotalPages(response.data.totalPages);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error('There was an error fetching the books!', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks(currentPage);
+  }, [currentPage]);
+
+  const handleSearch = async (keyword) => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/v1/searchBook/${keyword}`);
+      setBooks(response.data.books);
+      setTotalPages(1); // Assuming search results do not need pagination
+      setCurrentPage(1);
+    } catch (error) {
+      console.error('There was an error searching the books!', error);
+    }
+  };
+
   return (
     <div>
-      <Navbar />
-    
-      <BookGrid books = {books} />
-   
+      <Navbar onSearch={handleSearch} />
+      <BookGrid books={books} currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
     </div>
-  )
-}
+  );
+};
 
-export default Reviews
+export default Reviews;

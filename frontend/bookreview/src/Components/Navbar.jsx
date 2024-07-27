@@ -6,30 +6,34 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import logo from '../images/logo.jpeg';
 import profileIcon from '../images/user.png';
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
-    // Check local storage for authentication token or status
     const token = localStorage.getItem('JWT');
     if (token) {
       setIsSignedIn(true);
     }
   }, []);
 
+  const handleSearch = (event) => {
+    event.preventDefault();
+    onSearch(keyword);
+  };
+
   const handleProfileClick = () => {
     navigate('/profile');
   };
 
   const handleSignOut = () => {
-    // Handle sign out logic, like clearing the token
     localStorage.removeItem('JWT');
     setIsSignedIn(false);
   };
 
   const handleAddReviewClick = () => {
-    navigate('/AddNewBook'); // Navigate to the add review page
+    navigate('/AddNewBook');
   };
 
   return (
@@ -45,15 +49,17 @@ const Navbar = () => {
             size="small"
             placeholder="Search"
             variant="outlined"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
             sx={{
               mr: 2,
               '& .MuiOutlinedInput-root': {
-                backgroundColor: 'white', // Set background color to white
+                backgroundColor: 'white',
               },
             }}
             InputProps={{
               endAdornment: (
-                <IconButton type="button" aria-label="search">
+                <IconButton type="button" aria-label="search" onClick={handleSearch}>
                   <SearchIcon />
                 </IconButton>
               ),

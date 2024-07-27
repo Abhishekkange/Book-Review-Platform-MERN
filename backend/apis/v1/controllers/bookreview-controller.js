@@ -1,5 +1,5 @@
 
-const Book = require('../models/bookModel');
+const Book = require('../models/book-model');
 
 
 
@@ -46,16 +46,37 @@ async function addReview(req, res){
     }
 }
 
-async function getALlBooks(req,res)
-{
+// async function getALlBooks(req,res)
+// {
 
+//     try {
+//         const books = await Book.find({},"title author cover");
+//         res.status(200).json({"message":books});
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error fetching reviews', error });
+//     }
+// }
+
+async function getAllBooks(req, res) {
+    const { page = 1, limit = 10 } = req.query;
+  
     try {
-        const books = await Book.find({},"title author cover");
-        res.status(200).json({"message":books});
+      const books = await Book.find({}, "title author cover")
+                              .limit(parseInt(limit)) // Convert limit to number
+                              .skip((parseInt(page) - 1) * parseInt(limit)) // Convert page to number
+                              .exec();
+  
+      const count = await Book.countDocuments();
+  
+      res.status(200).json({
+        books,
+        totalPages: Math.ceil(count / parseInt(limit)),
+        currentPage: parseInt(page)
+      });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching reviews', error });
+      res.status(500).json({ message: 'Error fetching books', error });
     }
-}
+  }
 
 async function editReview(req, res) {
 
@@ -164,4 +185,4 @@ async function getBookReviewsById(req,res)
 
 }
 
-module.exports = {createNewBook,addReview,getALlBooks,editReview,deleteReview,getBookById,getBookReviewsById}
+module.exports = {createNewBook,addReview,editReview,deleteReview,getBookById,getBookReviewsById,getAllBooks}

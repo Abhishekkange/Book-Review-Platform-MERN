@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 connectToMongo();
 
 // Routers
-app.use('/api/v1', require('./routes/Authenticaton'));
-app.use('/api/v1', require('./routes/bookReview'));
-app.use('/api/v1', require('./routes/profile'));
+app.use('/api/v1', require('./routes/auth-routes'));
+app.use('/api/v1', require('./routes/bookreview-routes'));
+app.use('/api/v1', require('./routes/profile-routes'));
 
 const server = http.createServer(app);
 

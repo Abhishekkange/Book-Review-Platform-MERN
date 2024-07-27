@@ -1,5 +1,5 @@
-const User = require('../models/UserModel');
-const book = require('../models/bookModel');
+const User = require('../models/user-model');
+const book = require('../models/book-model');
 
 
 //function to get the details of given user from its ID
