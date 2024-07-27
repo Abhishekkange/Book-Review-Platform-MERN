@@ -52,12 +52,12 @@ const Register = () => {
             navigate('/');
           }
         } catch (error) {
-          console.error('There was an error!', error);
+        
           alert("Try Login Again");
         }
       }
     } catch (error) {
-      console.error('There was an error!', error);
+     
       alert('Registration failed. Please try again.');
     }
   };

@@ -100,8 +100,7 @@ const BookReview = ({ book, reviews }) => {
             try {
                 const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
                 const userId = response.data.message.id;
-                console.log(response);
-
+            
                 try {
                     await axios.post(
                         `http://localhost:4000/api/v1/addReview`,
@@ -116,8 +115,7 @@ const BookReview = ({ book, reviews }) => {
                     setShowAddModal(false);
                     window.location.reload(); // Refresh to see new review
                 } catch (error) {
-                    console.error('Error adding review:', error);
-                    alert('Failed to add review: ' + error.message);
+                    alert('Add Review between 1 to 5');
                 }
 
             } catch (error) {

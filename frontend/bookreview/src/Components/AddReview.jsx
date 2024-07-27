@@ -30,7 +30,7 @@ const AddReview = ({ show, handleClose, handleSubmit }) => {
             />
           </Form.Group>
           <Form.Group controlId="rating" className="mt-3">
-            <Form.Label>Rating</Form.Label>
+            <Form.Label>Rating(out of 5)</Form.Label>
             <ReactStars
               count={5}
               size={40}

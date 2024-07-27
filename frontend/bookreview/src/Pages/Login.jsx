@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const response = await axios.post('http://localhost:4000/api/v1/login', data);
-      console.log('Response:', response.data);
+  
       if (response.data.type === "JWT") {
         localStorage.setItem('JWT', response.data.message);
         alert("Login successful");

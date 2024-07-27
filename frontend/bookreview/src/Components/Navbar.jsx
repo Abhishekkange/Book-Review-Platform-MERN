@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Typography, TextField, Button, Box, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import logo from '../images/logo.jpeg';
@@ -12,6 +12,14 @@ const Navbar = ({ onSearch }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [keyword, setKeyword] = useState('');
   const isMobile = useMediaQuery('(max-width:600px)');
+
+  const handleLogoClick =  () => {
+
+    window.location.reload();
+
+
+
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('JWT');
@@ -43,7 +51,7 @@ const Navbar = ({ onSearch }) => {
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <img src={logo} alt="Logo" style={{ height: 40, marginRight: 16 }} />
-          <Typography variant="h6">Book Peek</Typography>
+          <Link onClick={handleLogoClick} to="/" style={{ textDecoration: 'none', color: 'inherit' }}>Book Peek</Link>
         </Box>
 
         {!isMobile && (
