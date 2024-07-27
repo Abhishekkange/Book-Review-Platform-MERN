@@ -45,7 +45,12 @@ const Navbar = () => {
             size="small"
             placeholder="Search"
             variant="outlined"
-            style={{color: 'white'}}
+            sx={{
+              mr: 2,
+              '& .MuiOutlinedInput-root': {
+                backgroundColor: 'white', // Set background color to white
+              },
+            }}
             InputProps={{
               endAdornment: (
                 <IconButton type="button" aria-label="search">
@@ -53,7 +58,6 @@ const Navbar = () => {
                 </IconButton>
               ),
             }}
-            sx={{ mr: 2 }}
           />
           <Button
             variant="contained"
