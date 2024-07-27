@@ -144,7 +144,7 @@ const BookReview = ({ book, reviews }) => {
                                         width: '100%',
                                         mb: 2,
                                     }}
-                                    src={book.image} // assuming book object has an image property
+                                    src={book.coverImage}
                                     alt={book.title}
                                 />
                                 <Typography variant="h5">{book.title}</Typography>

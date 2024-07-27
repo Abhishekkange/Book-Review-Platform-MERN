@@ -25,10 +25,24 @@ const Reviews = () => {
 
   const handleSearch = async (keyword) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/v1/searchBook/${keyword}`);
-      setBooks(response.data.books);
-      setTotalPages(1); // Assuming search results do not need pagination
-      setCurrentPage(1);
+      if(keyword =="")
+      {
+
+        fetchBooks();
+
+
+      }
+      else{
+
+        const response = await axios.get(`http://localhost:4000/api/v1/searchBook/${keyword}`);
+      
+        setBooks(response.data.message);
+        setTotalPages(1); // Assuming search results do not need pagination
+        setCurrentPage(1);
+
+      }
+    
+     
     } catch (error) {
       console.error('There was an error searching the books!', error);
     }

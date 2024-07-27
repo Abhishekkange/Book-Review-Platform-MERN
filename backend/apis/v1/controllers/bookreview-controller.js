@@ -61,7 +61,7 @@ async function getAllBooks(req, res) {
     const { page = 1, limit = 10 } = req.query;
   
     try {
-      const books = await Book.find({}, "title author cover")
+      const books = await Book.find({}, "title author coverImage")
                               .limit(parseInt(limit)) // Convert limit to number
                               .skip((parseInt(page) - 1) * parseInt(limit)) // Convert page to number
                               .exec();
