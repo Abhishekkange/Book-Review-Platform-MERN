@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap'; 
+import { Modal, Button, Form } from 'react-bootstrap';
+import ReactStars from 'react-rating-stars-component';
+
 const AddReview = ({ show, handleClose, handleSubmit }) => {
   const [reviewText, setReviewText] = useState('');
-  const [rating, setRating] = useState('');
+  const [rating, setRating] = useState(0);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleSubmit({ reviewText, rating });
-    handleClose(); 
+    handleClose();
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Add Review</Modal.Title>
       </Modal.Header>
@@ -29,13 +31,12 @@ const AddReview = ({ show, handleClose, handleSubmit }) => {
           </Form.Group>
           <Form.Group controlId="rating" className="mt-3">
             <Form.Label>Rating</Form.Label>
-            <Form.Control
-              type="number"
-              min="1"
-              max="5"
+            <ReactStars
+              count={5}
+              size={40}
               value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
+              onChange={(newRating) => setRating(newRating)}
+              activeColor="#ffd700"
             />
           </Form.Group>
           <Button variant="primary" type="submit" className="mt-3">

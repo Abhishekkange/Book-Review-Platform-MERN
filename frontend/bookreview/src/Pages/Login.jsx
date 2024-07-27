@@ -29,8 +29,13 @@ const Login = () => {
         alert("Login successful");
         navigate('/');
       }
+      else{
+
+        alert("Invalid credentials");
+      }
     } catch (error) {
       console.error('There was an error!', error);
+      alert("Login Failed");
     }
   };
 

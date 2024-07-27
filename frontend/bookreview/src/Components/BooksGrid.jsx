@@ -12,6 +12,7 @@ const BookGrid = ({ books = [], currentPage, totalPages, setCurrentPage }) => {
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+ 
 
   return (
     <Container sx={{ mt: 4 }}>
@@ -27,8 +28,9 @@ const BookGrid = ({ books = [], currentPage, totalPages, setCurrentPage }) => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={book.cover} // Use `book.cover` from the API response
+                  image={book.coverImage} // Use `book.cover` from the API response
                   alt={book.title}
+                  
                 />
                 <CardContent>
                   <Typography variant="h6" component="div">

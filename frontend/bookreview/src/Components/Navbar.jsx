@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, IconButton, Typography, TextField, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Typography, TextField, Button, Box, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import logo from '../images/logo.jpeg';
 import profileIcon from '../images/user.png';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     const token = localStorage.getItem('JWT');
@@ -44,7 +46,52 @@ const Navbar = ({ onSearch }) => {
           <Typography variant="h6">Book Peek</Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {!isMobile && (
+          <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+            <TextField
+              size="small"
+              placeholder="Search"
+              variant="outlined"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              sx={{
+                ml:3,
+                mr: 2,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white',
+                },
+                flex: 1,
+              }}
+              InputProps={{
+                endAdornment: (
+                  <IconButton type="button" aria-label="search" onClick={handleSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                ),
+              }}
+            />
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleAddReviewClick}
+              sx={{ mr: 2 }}
+            >
+              Add New Review
+            </Button>
+            <IconButton onClick={handleProfileClick}>
+              <img src={profileIcon} alt="Profile" style={{ height: 40 }} />
+            </IconButton>
+          </Box>
+        )}
+
+        {isMobile && (
+          <IconButton edge="end" color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+        )}
+      </Toolbar>
+      {isMobile && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', p: 2, backgroundColor: 'white' }}>
           <TextField
             size="small"
             placeholder="Search"
@@ -52,7 +99,7 @@ const Navbar = ({ onSearch }) => {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             sx={{
-              mr: 2,
+              mb: 2,
               '& .MuiOutlinedInput-root': {
                 backgroundColor: 'white',
               },
@@ -69,15 +116,16 @@ const Navbar = ({ onSearch }) => {
             variant="contained"
             color="success"
             onClick={handleAddReviewClick}
-            sx={{ mr: 2 }}
+            fullWidth
+            sx={{ mb: 2 }}
           >
             Add New Review
           </Button>
-          <IconButton onClick={handleProfileClick}>
-            <img src={profileIcon} alt="Profile" style={{ height: 40 }} />
-          </IconButton>
+          <Button variant="contained" color="primary" onClick={handleProfileClick} fullWidth>
+            Profile
+          </Button>
         </Box>
-      </Toolbar>
+      )}
     </AppBar>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Box, Typography, TextField, Button, Card, CardContent, InputLabel } from '@mui/material';
+import { Container, Box, Typography, TextField, Button, Card, CardContent, InputLabel, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Navbar2 from '../Components/Navbar2';
+
 
 const AddBookReview = () => {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ const AddBookReview = () => {
   const [bookImage, setBookImage] = useState(null);
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleBookImageChange = (e) => {
     setBookImage(e.target.files[0]);
@@ -17,27 +20,24 @@ const AddBookReview = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    let bookImageUrl = 'a';
+    let bookImageUrl = '';
 
     try {
       if (bookImage) {
-        // Create a FormData object and append the image
         const formData = new FormData();
         formData.append('image', bookImage);
 
-        // Upload image and get URL
         const uploadResponse = await axios.post('http://localhost:4000/api/v1/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
         bookImageUrl = uploadResponse.data.url;
-        console.log("Upload successful:",bookImageUrl);
-        console.log("Upload successful:",uploadResponse.data.urll);
+        console.log("Upload successful:", bookImageUrl);
       }
 
-      // Get id using JWT token
       const JWT = localStorage.getItem('JWT');
       if (JWT) {
         const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
@@ -46,7 +46,7 @@ const AddBookReview = () => {
         const data = {
           title: bookTitle,
           author: author,
-          coverImage: bookImageUrl, 
+          coverImage: bookImageUrl,
           reviewText: reviewText,
           rating: rating,
           userId: userId
@@ -55,27 +55,32 @@ const AddBookReview = () => {
         console.log(JSON.stringify(data));
         const submitResponse = await axios.post('http://localhost:4000/api/v1/createNewBook', data);
         console.log('Submit response:', submitResponse.data);
-        
+
         if (submitResponse.data.message === 'Review added successfully') {
           alert("Review added successfully");
           navigate('/');
         }
       } else {
-        navigate('/login'); // Redirect to login if no token is found
+        navigate('/login');
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
   return (
-    <Container maxWidth="sm">
+    <>
+    <Navbar2 />
+     <Container maxWidth="sm">
       <Box my={4}>
         <Card>
           <CardContent>
             <Typography variant="h5" gutterBottom>
               Add New Book and Review
             </Typography>
+            {loading && <LinearProgress />} {/* Loading bar */}
             <form onSubmit={handleSubmit}>
               <TextField
                 fullWidth
@@ -141,6 +146,7 @@ const AddBookReview = () => {
                 type="submit"
                 fullWidth
                 sx={{ mt: 2 }}
+                disabled={loading} // Disable button when loading
               >
                 Submit
               </Button>
@@ -149,6 +155,8 @@ const AddBookReview = () => {
         </Card>
       </Box>
     </Container>
+    </>
+   
   );
 };
 

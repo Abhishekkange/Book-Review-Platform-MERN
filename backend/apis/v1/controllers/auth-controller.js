@@ -26,7 +26,8 @@ async function registerUser(req,res)
 
         "username": username,
         "email": email,
-        "password": hash
+        "password": hash,
+        "timestamp": new Date().getTime()
 
       });
 
@@ -37,7 +38,7 @@ async function registerUser(req,res)
 
       }).catch(err => {
 
-        res.json({ "message": "failed to register" });
+        res.json({ "message": "failed to register " });
 
       });
 
@@ -58,9 +59,9 @@ async function loginUser(req, res) {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      console.log(userExists);
+    
 
-      const isMatch =  bcrypt.compare(password, userExists.password);
+      const isMatch =  await bcrypt.compare(password, userExists.password);
 
       if (isMatch) {
         const userDetails = {

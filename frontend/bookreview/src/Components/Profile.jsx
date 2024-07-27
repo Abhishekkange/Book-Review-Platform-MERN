@@ -150,7 +150,7 @@ const Profile = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Card>
-              <CardHeader title="User's Reviews" style={{ backgroundColor: '#f50057', color: 'white' }} />
+              <CardHeader title="My Reviews" style={{ backgroundColor: '#f50057', color: 'white' }} />
               <CardContent>
                 {reviews.length === 0 ? (
                   <Typography>No reviews found</Typography>

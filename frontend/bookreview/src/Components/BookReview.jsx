@@ -73,10 +73,10 @@ const BookReview = ({ book, reviews }) => {
                         { data: { userId: userId } }
                     );
                     setShowDeleteModal(false);
-                    window.location.reload(); // Refresh to see updated reviews
+                    window.location.reload(); 
                 } catch (error) {
-                    console.error('Error deleting review:', error);
-                    alert('Failed to delete review: ' + error.message);
+              
+                    alert("You can delete other's reviews");
                 }
 
             } catch (error) {
@@ -100,11 +100,14 @@ const BookReview = ({ book, reviews }) => {
             try {
                 const response = await axios.get(`http://localhost:4000/api/v1/verifyJwtToken/${JWT}`);
                 const userId = response.data.message.id;
+                console.log(response);
 
                 try {
                     await axios.post(
-                        `http://localhost:4000/api/v1/addReview/${book._id}`,
+                        `http://localhost:4000/api/v1/addReview`,
                         {
+                            title:book.title,
+                            author:book.author,
                             userId: userId,
                             reviewText: reviewText,
                             rating: rating
