@@ -1,27 +1,9 @@
-const express = require('express');
+
 const Book = require('../models/bookModel');
-const router = express.Router();
 
-router.post('/addReview', async (req, res) => {
-    const { title, author, reviewText, rating, userId } = req.body;
 
-    try {
-        let book = await Book.findOne({ title, author });
 
-        if (!book) {
-            book = new Book({ title, author });
-        }
-
-        book.reviews.push({ user: userId, reviewText, rating });
-        await book.save();
-
-        res.status(201).json({ message: 'Review added successfully', book });
-    } catch (error) {
-        res.status(500).json({ message: 'Error adding review', error });
-    }
-});
-
-router.post('/createNewBook',async(req,res)=>{
+async function createNewBook(req,res){
 
     const { title, author, reviewText, rating, userId,coverImage } = req.body;
     try {
@@ -39,27 +21,44 @@ router.post('/createNewBook',async(req,res)=>{
         res.status(500).json({ message: 'Error adding review', error });
     }
 
-});
 
-router.get('/reviews', async (req, res) => {
+
+
+}
+
+async function addReview(req, res){
+
+    const { title, author, reviewText, rating, userId } = req.body;
+
     try {
-        const books = await Book.find().populate('reviews.user', 'username email');
-        res.status(200).json(books);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching reviews', error });
-    }
-});
+        let book = await Book.findOne({ title, author });
 
-router.get('/books', async (req, res) => {
+        if (!book) {
+            book = new Book({ title, author });
+        }
+
+        book.reviews.push({ user: userId, reviewText, rating });
+        await book.save();
+
+        res.status(201).json({ message: 'Review added successfully', book });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding review', error });
+    }
+}
+
+async function getALlBooks(req,res)
+{
+
     try {
         const books = await Book.find({},"title author cover");
         res.status(200).json({"message":books});
     } catch (error) {
         res.status(500).json({ message: 'Error fetching reviews', error });
     }
-});
+}
 
-router.put('/editReview/:bookId/:reviewId', async (req, res) => {
+async function editReview(req, res) {
+
     const { bookId, reviewId } = req.params;
     const { reviewText, rating, userId } = req.body;
 
@@ -81,8 +80,11 @@ router.put('/editReview/:bookId/:reviewId', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error updating review', error });
     }
-});
-router.delete('/deleteReview/:bookId/:reviewId', async (req, res) => {
+
+};
+
+async function deleteReview(req, res) {
+
     const { bookId, reviewId } = req.params;
     const { userId } = req.body;
 
@@ -116,12 +118,10 @@ router.delete('/deleteReview/:bookId/:reviewId', async (req, res) => {
         console.error('Error deleting review:', error);
         res.status(500).json({ message: 'Error deleting review', error });
     }
-});
 
-
-//find the book by ID
-router.get("/book/:bookId", async(req, res) => {
-
+}
+async function getBookById(req,res)
+{
     const bookId = req.params.bookId;
     const book = await Book.findById(bookId);
     if(book)
@@ -134,11 +134,10 @@ router.get("/book/:bookId", async(req, res) => {
         res.json({ message:"book not found", type:'error' });
 
     }
-});
+}
 
-//find review by book ID
-
-router.get("/bookReviews/:bookId", async(req, res) => {
+async function getBookReviewsById(req,res)
+{
 
     const bookId = req.params.bookId;
     const book = await Book.findById(bookId);
@@ -161,11 +160,8 @@ router.get("/bookReviews/:bookId", async(req, res) => {
         res.json({ message:"book not found", type:'error' });
 
     }
-});
 
 
+}
 
-module.exports = router;
-
-
-module.exports = router;
+module.exports = {createNewBook,addReview,getALlBooks,editReview,deleteReview,getBookById,getBookReviewsById}

@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/UserModel');
+const User = require('../models/user-model');
 const bcrypt = require('bcrypt');
 const salt = 10;
 const jwt = require('jsonwebtoken');
 const key = "shaharukkKhan";
 
-router.post('/register', async (req, res) => {
 
-  //get the user details
+//function to Handle user registration
+async function registerUser(req,res)
+{
+//get the user details
   const email = req.body.email;
   const password = req.body.password;
   const username = req.body.username;
@@ -19,6 +19,7 @@ router.post('/register', async (req, res) => {
   }
   else {
 
+    //converting normal password to hash
     bcrypt.hash(password, salt, async (err, hash) => {
 
       const newUser = new User({
@@ -43,12 +44,12 @@ router.post('/register', async (req, res) => {
     });
   }
 
-});
+}
 
+//Function to handle User Login
+async function loginUser(req, res) {
 
-router.post('/login', async (req, res) => {
-
-  //get user details for login
+    //get user details for login
   const email = req.body.email;
   const password = req.body.password;
 
@@ -59,7 +60,6 @@ router.post('/login', async (req, res) => {
     if (userExists) {
       console.log(userExists);
 
-      // Correct order: plaintext password first, then hashed password
       const isMatch =  bcrypt.compare(password, userExists.password);
 
       if (isMatch) {
@@ -83,19 +83,30 @@ router.post('/login', async (req, res) => {
     return res.status(500).json({ message: 'An error occurred during login',type: 'error' });
   }
 
-});
 
-router.get('/verifyJwtToken/:token', (req, res) => {
-  const jwtToken = req.params.token;
 
-  jwt.verify(jwtToken, key, (err, decoded) => {
-    if (err) {
 
-      return res.status(401).json({ message: err.message });
-    }
+}
 
-    res.json({ message: decoded });
-  });
-});
+//Function to Handle JWT verification
+async function verifyJwtToken(req,res){
 
-module.exports = router;
+
+    const jwtToken = req.params.token;
+
+    jwt.verify(jwtToken, key, (err, decoded) => {
+      if (err) {
+  
+        return res.status(401).json({ message: err.message });
+      }
+  
+      res.json({ message: decoded });
+    });
+
+
+
+
+}
+
+module.exports ={registerUser,loginUser,verifyJwtToken}
+

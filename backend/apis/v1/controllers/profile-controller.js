@@ -1,11 +1,9 @@
-
-const book = require('../models/bookModel');
-const express = require('express');
-const router = express.Router();
 const User = require('../models/UserModel');
+const book = require('../models/bookModel');
 
 
-router.get('/userProfile/:userId', async(req, res) => {
+//function to get the details of given user from its ID
+async function getUserProfile(req,res){
 
     const userId = req.params.userId;
     const user = await User.findOne({ _id: userId},'email username');
@@ -17,10 +15,12 @@ router.get('/userProfile/:userId', async(req, res) => {
 
         res.json({"message":"user not found"});
     }
-});
 
-//find reviews using userId
-router.get('/reviews/:userId', async (req, res) => {
+}
+
+//function to fetch all reviews of given user using ID
+async function getReveiwOfUser(req,res){
+
     const userId = req.params.userId;
 
     try {
@@ -48,10 +48,15 @@ router.get('/reviews/:userId', async (req, res) => {
         res.status(500).json({ message: 'Error fetching user reviews', error });
         console.error(error);
     }
-});
 
-// Route to update user details (username and email)
-router.put('/updateProfile/:userId', async (req, res) => {
+
+
+}
+
+//function to update the User details
+async function updateUserDetails(req,res)
+{
+
     const userId = req.params.userId; // Extract user ID from request parameters
     const { username, email } = req.body; // Extract username and email from request body
 
@@ -71,8 +76,9 @@ router.put('/updateProfile/:userId', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: 'Error updating user details', error });
     }
-});
 
 
+}
 
-module.exports = router;
+
+module.exports = {getUserProfile,updateUserDetails, getReveiwOfUser}
