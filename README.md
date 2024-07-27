@@ -8,6 +8,7 @@ Book Review Platform is a web application where users can register, log in, and 
 
 - User Registration and Login
 - Add, Edit, and Delete Book Reviews
+
 - View all Book Reviews
 - User Profile Management
 - Secure Password Storage
@@ -24,6 +25,7 @@ Book Review Platform is a web application where users can register, log in, and 
 - **ImageStore:** Cloudinary
 
 ## Folder Structure
+![fs](https://github.com/user-attachments/assets/2c9f4fd9-eb2f-4a2e-b81d-5023212b56a8)
 
 
 ## Prerequisites
