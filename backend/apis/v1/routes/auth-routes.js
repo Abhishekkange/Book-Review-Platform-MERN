@@ -8,6 +8,12 @@ router.post('/register',controller.registerUser);
 //Route to handle User Login
 router.post('/login', controller.loginUser);
 
+router.get('/heramb',(req,res)=>{
+
+    res.json({ "message": "yes" });
+
+})
+
 //Route to handle JWT Verification
 router.get('/verifyJwtToken/:token', controller.verifyJwtToken);
 
