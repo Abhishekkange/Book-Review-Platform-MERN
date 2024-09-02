@@ -10,7 +10,7 @@ router.post('/login', controller.loginUser);
 
 router.get('/heramb',(req,res)=>{
 
-    res.json({ "message": "yes" });
+    res.json({ "message": "no" });
 
 })
 
